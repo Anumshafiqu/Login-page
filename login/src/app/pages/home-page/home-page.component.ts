@@ -11,20 +11,25 @@ import { ButtonModule } from 'primeng/button';
 })
 export class HomePageComponent {
   products = [
-    { name: 'Laptop', price: 1000, category: 'Electronics', isEditing: false },
-    { name: 'Phone', price: 500, category: 'Electronics', isEditing: false }
+    { name: 'John', lastName: 'Doe', website: 'https://johndoe.com', address: '123 Main St', isEditing: false },
+    { name: 'Jane', lastName: 'Smith', website: 'https://janesmith.io', address: '456 Oak Ave', isEditing: false },
+    { name: 'Alice', lastName: 'Johnson', website: 'https://alicejohnson.org', address: '789 Pine Rd', isEditing: false },
+    { name: 'Bob', lastName: 'Brown', website: 'https://bobbrown.net', address: '321 Elm St', isEditing: false }
   ];
 
+  // Enable editing for a row
   editRow(index: number) {
     this.products[index].isEditing = true;
   }
 
+  // Save row and disable editing
   saveRow(index: number) {
     this.products[index].isEditing = false;
   }
 
+  // Add a new editable row
   addNewRow() {
-    this.products.push({ name: '', price: 0, category: '', isEditing: true });
+    this.products.push({ name: '', lastName: '', website: '', address: '', isEditing: true });
   }
 
 }

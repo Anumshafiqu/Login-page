@@ -1,35 +1,48 @@
 <div class="p-4 shadow-sm bg-white rounded py-8">
   <div class="flex justify-content-between align-items-center mb-3">
-    <h3 class="m-0">Product List</h3>
-    <button pButton label="+ Add New" class="p-button-info px--2 rounded" (click)="addNewRow()"></button>
+    <button pButton label="+ Add New" class="p-button-info py-1 rounded ml-auto mr-3" (click)="addNewRow()"></button>
   </div>
 
   <table class="w-full shadow-1">
     <thead>
-      <tr class="bg-primary ">
+      <tr>
         <th class="p-2">Name</th>
-        <th class="p-2">Price</th>
-        <th class="p-2">Category</th>
+        <th class="p-2">Last Name</th>
+        <th class="p-2">Website</th>
+        <th class="p-2 text-center">Address</th>
         <th class="p-2 text-center">Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of products; let i = index" class="border-bottom-1 surface-border">
+        <!-- Name -->
         <td class="p-2">
           <input *ngIf="item.isEditing" [(ngModel)]="item.name" pInputText class="w-full form-control" />
           <span *ngIf="!item.isEditing">{{ item.name }}</span>
         </td>
+
+        <!-- Last Name -->
         <td class="p-2">
-          <input *ngIf="item.isEditing" [(ngModel)]="item.price" type="number" pInputText class="w-full form-control" />
-          <span *ngIf="!item.isEditing">{{ item.price }}</span>
+          <input *ngIf="item.isEditing" [(ngModel)]="item.lastName" pInputText class="w-full form-control" />
+          <span *ngIf="!item.isEditing">{{ item.lastName }}</span>
         </td>
+
+        <!-- Website -->
         <td class="p-2">
-          <input *ngIf="item.isEditing" [(ngModel)]="item.category" pInputText class="w-full form-control" />
-          <span *ngIf="!item.isEditing">{{ item.category }}</span>
+          <input *ngIf="item.isEditing" [(ngModel)]="item.website" pInputText class="w-full form-control" />
+          <span *ngIf="!item.isEditing">{{ item.website }}</span>
+        </td>
+
+        <!-- Address -->
+        <td class="p-2 text-center">
+          <input *ngIf="item.isEditing" [(ngModel)]="item.address" pInputText class="w-full form-control mb-1" />
+          <span *ngIf="!item.isEditing">{{ item.address }}</span>
         </td>
         <td class="p-2 text-center">
-          <button *ngIf="item.isEditing" pButton label="Save" class="p-button-success p-button-sm mr-2 mx-2 rounded" (click)="saveRow(i)"></button>
-          <button *ngIf="!item.isEditing" pButton label="Edit" class="p-button-light p-button-sm mx-2 rounded" (click)="editRow(i)"></button>
+                    <div class="mt-1">
+            <button *ngIf="item.isEditing" pButton label="Save" class="p-button-success p-button-sm mr-2 mx-2 rounded py-1" (click)="saveRow(i)"></button>
+            <button *ngIf="!item.isEditing" pButton label="Edit" class="p-button-light p-button-sm mx-2 rounded py-1" (click)="editRow(i)"></button>
+          </div>
         </td>
       </tr>
     </tbody>
