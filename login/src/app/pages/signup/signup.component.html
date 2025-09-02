@@ -1,0 +1,51 @@
+<div class="p-4 surface-card border-round shadow-2 max-w-30rem mx-auto mt-5">
+  <h2 class="text-center mb-4">Sign Up</h2>
+
+  <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="p-fluid">
+    <!-- First Name -->
+    <div class="field mb-3">
+      <label for="firstName">First Name</label>
+      <input id="firstName" name="firstName" type="text" pInputText [(ngModel)]="user.firstName" required />
+    </div>
+
+    <!-- Last Name -->
+    <div class="field mb-3">
+      <label for="lastName">Last Name</label>
+      <input id="lastName" name="lastName" type="text" pInputText [(ngModel)]="user.lastName" required />
+    </div>
+
+    <!-- Country -->
+    <div class="field mb-3">
+      <label for="country">Country</label>
+      <p-dropdown 
+        [options]="countries" 
+        [(ngModel)]="user.country" 
+        name="country" 
+        placeholder="Select a Country"
+        optionLabel="name">
+      </p-dropdown>
+    </div>
+
+    <!-- Business Class -->
+    <div class="field mb-3">
+      <label for="businessClass">Business Class</label>
+      <input id="businessClass" name="businessClass" type="text" pInputText [(ngModel)]="user.businessClass" required />
+    </div>
+
+    <!-- Phone Number -->
+    <div class="field mb-3">
+      <label for="phoneNo">Phone No</label>
+      <input id="phoneNo" name="phoneNo" type="tel" pInputText [(ngModel)]="user.phoneNo" required />
+    </div>
+
+    <!-- Company Name -->
+    <div class="field mb-3">
+      <label for="companyName">Company Name</label>
+      <input id="companyName" name="companyName" type="text" pInputText [(ngModel)]="user.companyName" required />
+    </div>
+
+    <!-- Submit Button -->
+    <button pButton type="submit" label="Sign Up" class="p-button-primary w-full"></button>
+  </form>
+</div>
+

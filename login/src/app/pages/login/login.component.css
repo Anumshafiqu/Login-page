@@ -1,0 +1,7 @@
+:host ::ng-deep .p-card {
+  padding: 2rem;
+}
+
+.text-primary {
+  color: #2f6feb;
+}
