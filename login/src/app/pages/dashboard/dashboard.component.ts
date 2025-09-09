@@ -11,13 +11,13 @@ import { HeaderComponent } from '../header/header.component';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  constructor(){
-    this.getuser()
-  }
-getuser() {
-  this.http.get("https://projectapi.gerasim.in/api/UserApp/GetAllUsers").subscribe((res:any)=>{
-    debugger;
-  })
-}
-http = inject(HttpClient);
+//   constructor(){
+//     this.getuser()
+//   }
+// getuser() {
+//   this.http.get("https://projectapi.gerasim.in/api/UserApp/GetAllUsers").subscribe((res:any)=>{
+//     debugger;
+//   })
+// }
+// http = inject(HttpClient);
 }
