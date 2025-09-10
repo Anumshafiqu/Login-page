@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 
@@ -9,5 +10,14 @@ import { AvatarModule } from 'primeng/avatar';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  router = inject(Router);
 
+  logout() {
+    // Clear user session
+    localStorage.removeItem('angular19Token');
+    localStorage.removeItem('angular19user');
+
+    // Navigate back to login
+    this.router.navigateByUrl('login');
+  }
 }

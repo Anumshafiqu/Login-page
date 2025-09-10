@@ -8,99 +8,113 @@
     </h2>
   </div>
 
-  <!-- Right Section (Login / Sign Up card) -->
   <div class="col-6 md:col-6  p-4">
-
-    <!-- Login Form -->
     <p-card class="w-full max-w-30rem p-4 shadow-sm" *ngIf="showLogin">
-      <div class="text-center mb-4">
-        <!-- <img src="assets/logo.png" alt="CollectCo" width="120" /> -->
+    <div class="login-container">
+            <div class="text-center mb-4">
         <h2 class="mt-2">Login</h2>
         <p>
           Don’t have an account?
           <span class="text-primary cursor-pointer" (click)="toggleForm()">Sign up</span>
         </p>
       </div>
+  <form [formGroup]="LoginForm" (ngSubmit)="onLogin()">
 
-      <div class="mb-3">
-        <label>Email: <span class="text-red-500">*</span></label>
-        <input pInputText type="text" [(ngModel)]="apiLoginObj.EmailId" class="w-full" />
-      </div>
+    <!-- Email -->
+    <div class="form-group">
+      <label class="py-2">Email</label>
+      <input type="text" formControlName="email" class="form-control" />
+      <small class="text-danger" *ngIf="LoginForm.get('email')?.touched && LoginForm.get('email')?.invalid">
+        <span *ngIf="LoginForm.get('email')?.errors?.['required']">Email is required.</span>
+        <span *ngIf="LoginForm.get('email')?.errors?.['email']">Enter a valid email.</span>
+      </small>
+    </div>
 
-      <div class="mb-3">
-        <label>Password: <span class="text-red-500">*</span></label>
-        <input pInputText type="password" [(ngModel)]="apiLoginObj.Password" class="w-full" />
-      </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label class="py-2 mt-3">Password</label>   
+      <input type="password" formControlName="password" class="form-control" />
+      <small class="text-danger" *ngIf="LoginForm.get('password')?.touched && LoginForm.get('password')?.invalid">
+        <span *ngIf="LoginForm.get('password')?.errors?.['required']">Password is required.</span>
+        <span *ngIf="LoginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters.</span>
+      </small>
+    </div>
 
-      <div class="flex align-items-center justify-content-between mb-3">
-        <div>
-          <p-checkbox binary="true" inputId="remember"></p-checkbox>
-          <label for="remember" class="ml-2">Remember Me</label>
-        </div>
-         <a href="password" class="text-primary cursor-pointer">
-    Forgot Password?
-  </a>
-      </div>
+    <button type="submit" class="btn btn-primary mt-2" [disabled]="LoginForm.invalid">Login</button>
+  </form>
+</div>
 
-      <button pButton type="button" label="Login" (click)="onLogin()" class="w-full rounded"></button>
-      <button pButton type="button" label="Sign In with SSO" class="w-full mt-2 p-button-outlined rounded"></button>
-
-      <p class="text-center text-sm mt-3">
-        By signing in, you agree to our <span class="text-primary">Terms & Conditions</span>
-      </p>
     </p-card>
+<p-card class="w-full max-w-30rem p-4 shadow-2" *ngIf="!showLogin">
+  <h2 class="text-center mb-4">Sign Up</h2>
 
-    <!-- Sign Up Form -->
-    <p-card class="w-full max-w-30rem p-4 shadow-2" *ngIf="!showLogin">
-      <h2 class="text-center mb-4">Sign Up</h2>
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="p-fluid">
 
-      <form (ngSubmit)="onSubmit()" #signupForm="ngForm" class="p-fluid">
-        <div class="row">
-          <div class="field mb-3 col-6">
-            <label for="firstName">First Name</label>
-            <input id="firstName" name="firstName" type="text" pInputText [(ngModel)]="user.firstName" required />
-          </div>
+    <div class="row">
+      <div class="field mb-3 col-6">
+        <label for="firstName">First Name</label>
+        <input id="firstName" type="text" pInputText formControlName="firstName" />
+        <small class="text-danger" *ngIf="signupForm.get('firstName')?.touched && signupForm.get('firstName')?.invalid">
+          First Name is required.
+        </small>
+      </div>
 
-          <div class="field mb-3 col-6">
-            <label for="lastName">Last Name</label>
-            <input id="lastName" name="lastName" type="text" pInputText [(ngModel)]="user.lastName" required />
-          </div>
-        </div>
-        <div class="row">
-          <div class="field mb-3 col-6">
-            <label for="country">Country</label>
-            <p-dropdown [options]="countries" [(ngModel)]="user.country" name="country" placeholder="Select a Country"
-              optionLabel="name">
-            </p-dropdown>
-          </div>
+      <div class="field mb-3 col-6">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" type="text" pInputText formControlName="lastName" />
+        <small class="text-danger" *ngIf="signupForm.get('lastName')?.touched && signupForm.get('lastName')?.invalid">
+          Last Name is required.
+        </small>
+      </div>
+    </div>
 
-          <div class="field mb-3 col-6">
-            <label for="businessClass">Business Class</label>
-            <input id="businessClass" name="businessClass" type="text" pInputText [(ngModel)]="user.businessClass"
-              required />
-          </div>
-        </div>
-        <div class="row">
+    <div class="row">
+      <div class="field mb-3 col-6">
+        <label for="country">Country</label>
+        <p-dropdown [options]="countries" formControlName="country" placeholder="Select a Country" optionLabel="name"></p-dropdown>
+        <small class="text-danger" *ngIf="signupForm.get('country')?.touched && signupForm.get('country')?.invalid">
+          Country is required.
+        </small>
+      </div>
 
-          <div class="field mb-3 col-6">
-            <label for="phoneNo">Phone No</label>
-            <input id="phoneNo" name="phoneNo" type="tel" pInputText [(ngModel)]="user.phoneNo" required />
-          </div>
+      <div class="field mb-3 col-6">
+        <label for="businessClass">Business Class</label>
+        <input id="businessClass" type="text" pInputText formControlName="businessClass" />
+        <small class="text-danger" *ngIf="signupForm.get('businessClass')?.touched && signupForm.get('businessClass')?.invalid">
+          Business Class is required.
+        </small>
+      </div>
+    </div>
 
-          <div class="field mb-3 col-6">
-            <label for="companyName">Company Name</label>
-            <input id="companyName" name="companyName" type="text" pInputText [(ngModel)]="user.companyName" required />
-          </div>
-        </div>
+    <div class="row">
+      <div class="field mb-3 col-6">
+        <label for="phoneNo">Phone No</label>
+        <input id="phoneNo" type="tel" pInputText formControlName="phoneNo" />
+        <small class="text-danger" *ngIf="signupForm.get('phoneNo')?.touched && signupForm.get('phoneNo')?.invalid">
+          <span *ngIf="signupForm.get('phoneNo')?.errors?.['required']">Phone No is required.</span>
+          <span *ngIf="signupForm.get('phoneNo')?.errors?.['pattern']">Enter a valid phone number.</span>
+        </small>
+      </div>
 
-        <button pButton type="submit" label="Sign Up" class="p-button-primary w-full rounded"></button>
+      <div class="field mb-3 col-6">
+        <label for="companyName">Company Name</label>
+        <input id="companyName" type="text" pInputText formControlName="companyName" />
+        <small class="text-danger" *ngIf="signupForm.get('companyName')?.touched && signupForm.get('companyName')?.invalid">
+          Company Name is required.
+        </small>
+      </div>
+    </div>
 
-        <p class="text-center mt-3">
-          Already have an account?
-          <span class="text-primary cursor-pointer" (click)="toggleForm()">Login</span>
-        </p>
-      </form>
-    </p-card>
+<button type="submit" class="btn btn-primary mt-2" [disabled]="signupForm.invalid">Sign up</button>
+
+    <p class="text-center mt-3">
+      Already have an account?
+      <span class="text-primary cursor-pointer" (click)="toggleForm()">Login</span>
+    </p>
+
+  </form>
+</p-card>
+
 
   </div>
 </div>
