@@ -23,6 +23,6 @@ export const routes: Routes = [
 
         ],
     },
-    { path: '', component: PasswordComponent },
+    // { path: '', component: PasswordComponent },
     { path: 'password', component: PasswordComponent },
 ];

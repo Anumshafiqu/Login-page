@@ -1,10 +1,12 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
 interface Product {
   id?: string;
   name?: string;
@@ -14,70 +16,14 @@ interface Product {
 
 @Component({
   selector: 'app-home-page',
-  imports: [FormsModule, ButtonModule, NgIf ,  ReactiveFormsModule, NgFor, DialogModule, InputTextModule, TableModule , NgClass],
+  imports: [FormsModule, ButtonModule, NgIf ,  ReactiveFormsModule, NgFor, DialogModule, InputTextModule, TableModule , ToastModule],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrl: './home-page.component.css',
+    providers: [MessageService],
 })
 export class HomePageComponent {
 
-  // products = [
-  //   { name: 'John', lastName: 'Doe', website: 'https://johndoe.com', address: '123 Main St', isEditing: false },
-  //   { name: 'Jane', lastName: 'Smith', website: 'https://janesmith.io', address: '456 Oak Ave', isEditing: false },
-  //   { name: 'Alice', lastName: 'Johnson', website: 'https://alicejohnson.org', address: '789 Pine Rd', isEditing: false },
-  //   { name: 'Bob', lastName: 'Brown', website: 'https://bobbrown.net', address: '321 Elm St', isEditing: false }
-  // ];
-
-  // displayDialog = false;
-  // productForm!: FormGroup;
-  // fb = inject(FormBuilder);
-
-  // ngOnInit(): void {
-  //   this.initForm();
-  // }
-
-  // initForm() {
-  //   this.productForm = this.fb.group({
-  //     name: ['', Validators.required],
-  //     lastName: ['', Validators.required],
-  //     website: ['', [Validators.required, Validators.pattern(/^(https?:\/\/)?([\w\d-]+\.){1,2}[a-z]{2,6}(\/.*)?$/i)]],
-  //     address: ['', Validators.required]
-  //   });
-  // }
-
-  // showDialog() {
-  //   this.displayDialog = true;
-  //   this.initForm(); // Reset form each time
-  // }
-
-  // saveProduct() {
-  //   if (this.productForm.invalid) {
-  //     this.productForm.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   this.products.push(this.productForm.value);
-  //   this.displayDialog = false;
-  // }
-
-
-  // editRow(index: number) {
-  //   this.products[index].isEditing = true;
-  // }
-
-  // saveRow(index: number) {
-  //   if (!this.products[index].name || !this.products[index].lastName || !this.products[index].website || !this.products[index].address) {
-  //     alert("All fields are required!");
-  //     return;
-  //   }
-  //   this.products[index].isEditing = false;
-  // }
-
-  // addNewRow() {
-  //   this.products.push({ name: '', lastName: '', website: '', address: '', isEditing: true });
-  // }
-
-
-
+  messageService = inject(MessageService);
    products: any[] = [];
   productForm!: FormGroup;
   productDialog: boolean = false;
@@ -109,8 +55,23 @@ export class HomePageComponent {
     return this.productForm.get('phones') as FormArray;
   }
 
-  addPhone() {
+  addPhone(showValidation: boolean = true) {
+    const lastPhone = this.phones.at(this.phones.length - 1);
+      if (showValidation && lastPhone && lastPhone.invalid) {
+    lastPhone.markAsTouched();
+    this.messageService.clear(); // clear old toasts
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Incomplete Field',
+      detail: 'Please fill the previous phone number before adding a new one.',
+      life: 3000
+    });
+    return; // stop, don’t add new phone
+  }
+
     this.phones.push(this.createPhoneField());
+
+  
   }
 
   removePhone(index: number) {
@@ -122,7 +83,7 @@ export class HomePageComponent {
   openNew() {
     this.productForm.reset();
     this.phones.clear();
-    this.addPhone();
+    this.addPhone(false);
     this.editIndex = null;
     this.productDialog = true;
   }
@@ -143,30 +104,55 @@ export class HomePageComponent {
     this.productDialog = true;
   }
 
-  saveProduct() {
-    if (this.productForm.invalid) {
-      this.productForm.markAllAsTouched();
-      return;
-    }
-
-    const formValues = this.productForm.value;
-
-    if (this.editIndex !== null) {
-      this.products[this.editIndex] = formValues;
-      this.editIndex = null;
-    } else {
-      this.products.push(formValues);
-    }
-
-    this.productDialog = false;
-    this.productForm.reset();
-    this.phones.clear();
-    this.addPhone();
+saveProduct() {
+    // ✅ mark all fields and nested controls as touched
+    this.markFormGroupTouched(this.productForm);
+  if (this.productForm.invalid) {
+    this.productForm.markAllAsTouched();
+    this.messageService.clear();
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Validation Error',
+      detail: 'Please fill all required fields before saving.',
+      life: 3000
+    });
+    return;
   }
 
-  deleteProduct(index: number) {
-    this.products.splice(index, 1);
+  const formValues = this.productForm.value;
+
+  if (this.editIndex !== null) {
+    this.products[this.editIndex] = formValues;
+    this.editIndex = null;
+  } else {
+    this.products.push(formValues);
   }
+
+  this.productDialog = false;
+  this.productForm.reset();
+  this.phones.clear();
+  this.addPhone(false);
+
+  //  success toast only once
+  this.messageService.clear();
+  this.messageService.add({
+    severity: 'success',
+    summary: 'Success',
+    detail: 'Data saved successfully!',
+    life: 3000
+  });
+}
+  //  Recursive function to mark all FormGroup/FormArray/FormControl as touched
+  markFormGroupTouched(formGroup: FormGroup | FormArray) {
+    Object.values(formGroup.controls).forEach(control => {
+      if (control instanceof FormControl) {
+        control.markAsTouched();
+      } else if (control instanceof FormGroup || control instanceof FormArray) {
+        this.markFormGroupTouched(control);
+      }
+    });
+  }
+
 
   loadDummyData() {
     this.products = [
