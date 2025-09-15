@@ -6,6 +6,8 @@ import { HeaderComponent } from './pages/header/header.component';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { PasswordComponent } from './pages/password/password.component';
+import { InterceptorsComponent } from './pages/interceptors/interceptors.component';
+import { UserService } from './pages/service/resolvers/user.service';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -18,11 +20,16 @@ export const routes: Routes = [
         children: [
             { path: 'header', component: HeaderComponent },
             { path: 'sidebar', component: SidebarComponent },
+            
+            
 
 
 
         ],
+        
     },
-    // { path: '', component: PasswordComponent },
+    {path :'interceptors' , component : InterceptorsComponent ,
+        resolve: { userData: UserService}
+    },
     { path: 'password', component: PasswordComponent },
 ];

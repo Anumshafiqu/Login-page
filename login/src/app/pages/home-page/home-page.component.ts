@@ -142,6 +142,9 @@ saveProduct() {
     life: 3000
   });
 }
+  deleteProduct(index: number) {
+    this.products.splice(index, 1); // removes product from array
+  }
   //  Recursive function to mark all FormGroup/FormArray/FormControl as touched
   markFormGroupTouched(formGroup: FormGroup | FormArray) {
     Object.values(formGroup.controls).forEach(control => {

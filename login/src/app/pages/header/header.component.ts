@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AvatarModule } from 'primeng/avatar';
 
 @Component({
   selector: 'app-header',
-  imports: [AvatarModule],
+  imports: [AvatarModule , RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
