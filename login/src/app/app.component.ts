@@ -4,15 +4,16 @@ import { InterceptorsComponent } from './pages/interceptors/interceptors.compone
 import { HeaderComponent } from './pages/header/header.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { pipe } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 import { LoaderService } from './pages/service/loader.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet ,  InterceptorsComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'login';
+
 }

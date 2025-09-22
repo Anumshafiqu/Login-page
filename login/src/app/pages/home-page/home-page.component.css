@@ -17,7 +17,13 @@ tr:hover {
 }
 p-button{
   border-radius: 10px;
+font-size: 12px;
 }
 .button{
   margin-left: auto;
+  font-size: 12px;
+}
+.table th , td{
+font-size: 12px;
+width: 70%;
 }

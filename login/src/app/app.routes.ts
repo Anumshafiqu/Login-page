@@ -8,6 +8,11 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { PasswordComponent } from './pages/password/password.component';
 import { InterceptorsComponent } from './pages/interceptors/interceptors.component';
 import { UserService } from './pages/service/resolvers/user.service';
+import { ResolverComponent } from './pages/resolver/resolver.component';
+import { userResolver } from './pages/service/resolvers/user.resolver';
+import { prodcutResolver } from './pages/service/resolvers/prodcut.resolver';
+import { tokenInterceptor } from './interceptor/token.interceptor';
+import { TokenComponent } from './pages/token/token.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -29,7 +34,11 @@ export const routes: Routes = [
         
     },
     {path :'interceptors' , component : InterceptorsComponent ,
-        resolve: { userData: UserService}
+        resolve :{ productData : prodcutResolver}
     },
+    {path: 'resolver' , component: ResolverComponent, 
+        resolve : {data: userResolver}
+    },
+    {path : 'token' , component :TokenComponent},
     { path: 'password', component: PasswordComponent },
 ];

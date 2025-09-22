@@ -13,12 +13,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './interceptors.component.css'
 })
 export class InterceptorsComponent {
-  user: any;
+  product: any;
 
   constructor(private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
-    // Access data provided by resolver
-    this.user = this.route.snapshot.data['userData'];
+  ngOnInit() {
+    this.product = this.route.snapshot.data['productData'];
+    console.log("Resolved data:", this.product);
   }
 }

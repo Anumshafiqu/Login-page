@@ -105,10 +105,11 @@ export class HomePageComponent {
   }
 
 saveProduct() {
-    // ✅ mark all fields and nested controls as touched
-    this.markFormGroupTouched(this.productForm);
+  // mark every control as touched
+  this.productForm.markAllAsTouched();
+// If the form is invalid, show error toast and stop
+
   if (this.productForm.invalid) {
-    this.productForm.markAllAsTouched();
     this.messageService.clear();
     this.messageService.add({
       severity: 'error',
@@ -132,8 +133,7 @@ saveProduct() {
   this.productForm.reset();
   this.phones.clear();
   this.addPhone(false);
-
-  //  success toast only once
+//  Show success message
   this.messageService.clear();
   this.messageService.add({
     severity: 'success',
@@ -142,6 +142,7 @@ saveProduct() {
     life: 3000
   });
 }
+
   deleteProduct(index: number) {
     this.products.splice(index, 1); // removes product from array
   }

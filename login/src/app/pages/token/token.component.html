@@ -1,0 +1,5 @@
+    <h2>JWT Token Example</h2>
+    <button (click)="saveToken()">Save JWT Token</button>
+    <button (click)="getData()">Call API with Token</button>
+
+    <p *ngIf="token">Token: {{ token }}</p>

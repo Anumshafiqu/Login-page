@@ -1,11 +1,11 @@
 
 <p-toast position="top-right"></p-toast>
-<div class="p-4 shadow-sm bg-white rounded">
+<div class="p-4 shadow-sm bg-white rounded fs-6">
   <div class="d-flex justify-content-end mb-3">
-    <button pButton label="+ Add New" class="btn btn-primary rounde" (click)="openNew()"></button>
+    <button pButton label="+ Add New" class="btn btn-primary rounded px-2 py-1 button" (click)="openNew()"></button>
   </div>
 
-  <p-table [value]="products" class="w-full">
+  <p-table [value]="products" class="w-full fs-6 table">
     <ng-template pTemplate="header">
       <tr>
         <th>Name</th>
@@ -26,8 +26,8 @@
           </ul>
         </td>
         <td>
-          <button  icon="pi pi-pencil" class="btn btn-primary rounded mr-2 small" (click)="editProduct(product, i)">Edit</button>
-          <button icon="pi pi-trash" class="btn btn-primary rounded small" (click)="deleteProduct(i)">Delete</button>
+          <button  icon="pi pi-pencil" class="btn btn-primary rounded mr-2 small button px-2 py-1" (click)="editProduct(product, i)">Edit</button>
+          <button icon="pi pi-trash" class="btn btn-primary px-2 py-1 rounded small button" (click)="deleteProduct(i)">Delete</button>
         </td>
       </tr>
     </ng-template>
